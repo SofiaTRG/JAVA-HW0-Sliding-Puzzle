@@ -17,6 +17,7 @@ public class Main {
         scanner = new Scanner(new File(path));
         int numberOfGames = scanner.nextInt();
         scanner.nextLine();
+        //test
 
         System.out.println("Total of " + numberOfGames + " games.");
 
