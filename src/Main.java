@@ -9,8 +9,39 @@ public class Main {
 
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
+
+        // user input:
+        // size of board
+        System.out.println("Enter the board size:");
+        String sizeBoard = scanner.nextLine();
+        // cal the func extractNumbersFromStr to split to 2 integers
+        int[] sizeBoardNum = extractNumbersFromStr(sizeBoard);
+        // n = rows, m = cols
+        int n = sizeBoardNum[0];
+        int m = sizeBoardNum[1];
+
+        // ?should we check if the user actually put two integers?
+
+        // battleships size
+        System.out.println("Enter the board size:");
+        String battleships = scanner.nextLine();
+        // make the string into number and sizes.
+
+        // should we check is the sizes are good? (not bigger than max(n,m))?
+
     }
 
+    // from string "nXm" to array of 2 integers (cause java cannot return 2 integers)
+    public static int[] extractNumbersFromStr(String input) {
+        String[] numbers = input.split("X");
+        int num1 = Integer.parseInt(numbers[0]);
+        int num2 = Integer.parseInt(numbers[1]);
+        return new int[] {num1, num2};
+
+    }
+
+    // here should be a function that takes the string of the battleships
+    // and give you the number of battleships and their sizes
 
     public static void main(String[] args) throws IOException {
         String path = args[0];
