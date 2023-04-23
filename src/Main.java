@@ -25,7 +25,9 @@ public class Main {
         System.out.println("Enter the battleships sizes:");
         String battleships = scanner.nextLine();
         // make the string into number and sizes.
-
+        String[] battleshipsSplit = splitStr(battleships);
+        // the sizes (no needed right now. we will get the ints when we start placing the ships)
+        int numOfBattleship = battleshipsSplit.length;
         // should we check is the sizes are good? (not bigger than max(n,m))?
 
     }
@@ -39,7 +41,10 @@ public class Main {
 
     }
 
-    // here should be a function that takes the string of the battleships
+    // split from str to str[] by " "
+    public static String[] splitStr(String input) {
+        return input.split(" ");
+    }
     // and give you the number of battleships and their sizes
 
     public static void main(String[] args) throws IOException {
