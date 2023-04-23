@@ -20,6 +20,7 @@ public class Main {
         //test
         //test
         //test
+        //test
         System.out.println("Total of " + numberOfGames + " games.");
 
         for (int i = 1; i <= numberOfGames; i++) {
