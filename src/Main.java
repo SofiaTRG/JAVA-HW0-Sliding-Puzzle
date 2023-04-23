@@ -18,7 +18,7 @@ public class Main {
         int numberOfGames = scanner.nextInt();
         scanner.nextLine();
         //test
-
+        //test
         System.out.println("Total of " + numberOfGames + " games.");
 
         for (int i = 1; i <= numberOfGames; i++) {
