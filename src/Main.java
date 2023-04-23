@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Main {
     public static Scanner scanner;
     public static Random rnd;
-
     public static void battleshipGame() {
         // TODO: Add your code here (and add more methods).
 
@@ -23,7 +22,7 @@ public class Main {
         // ?should we check if the user actually put two integers?
 
         // battleships size
-        System.out.println("Enter the board size:");
+        System.out.println("Enter the battleships sizes:");
         String battleships = scanner.nextLine();
         // make the string into number and sizes.
 
