@@ -28,8 +28,13 @@ public class Main {
         String[] battleshipsSplit = splitStr(battleships);
         // the sizes (no needed right now. we will get the ints when we start placing the ships)
         int numOfBattleship = battleshipsSplit.length;
+
         // should we check is the sizes are good? (not bigger than max(n,m))?
 
+        // !!PLACE THE BATTLESHIPS!! (use other function and for
+        System.out.println("Enter location and orientation for battleship size s");
+
+        // check if the placing is correct
     }
 
     // from string "nXm" to array of 2 integers (cause java cannot return 2 integers)
@@ -38,14 +43,12 @@ public class Main {
         int num1 = Integer.parseInt(numbers[0]);
         int num2 = Integer.parseInt(numbers[1]);
         return new int[] {num1, num2};
-
     }
 
     // split from str to str[] by " "
     public static String[] splitStr(String input) {
         return input.split(" ");
     }
-    // and give you the number of battleships and their sizes
 
     public static void main(String[] args) throws IOException {
         String path = args[0];
