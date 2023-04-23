@@ -26,9 +26,9 @@ public class Main {
         System.out.println("Enter the board size:");
         String battleships = scanner.nextLine();
         // make the string into number and sizes.
-        // use the function from before.
-        // make function from str to array
-
+        String[] battleshipsSplit = splitStr(battleships);
+        // the sizes (no needed right now. we will get the ints when we start placing the ships)
+        int numOfBattleship = battleshipsSplit.length;
         // should we check is the sizes are good? (not bigger than max(n,m))?
 
     }
@@ -42,10 +42,9 @@ public class Main {
 
     }
 
-    // here should be a function that takes the string of the battleships
-    public static String[] strToArray(String input) {
-        // split to array by " "
-        return;
+    // split from str to str[] by " "
+    public static String[] splitStr(String input) {
+        return input.split(" ");
     }
     // and give you the number of battleships and their sizes
 
