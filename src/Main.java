@@ -18,6 +18,8 @@ public class Main {
         // n = rows, m = cols
         int n = sizeBoardNum[0];
         int m = sizeBoardNum[1];
+        // making the board
+        int [][] board = new int[n][m];
 
         // ?should we check if the user actually put two integers?
 
@@ -48,6 +50,35 @@ public class Main {
     // split from str to str[] by " "
     public static String[] splitStr(String input) {
         return input.split(" ");
+    }
+
+    // display the board
+    public static void printBoard(int[][] board, int rows, int coll) {
+
+        // !PRINT THE NUMBERS ON THE TOP OF THE BOARD AND ON THE SIDE! HAVE NO IDEA HOW
+
+        // 0 - no ship, 1 - ship, -1 - a hit
+        // go by indexes (i for rows, j for coll). and check for the state in this place
+        int i = 0;
+        while (i < rows) {
+            int j = 0;
+            while (j < coll) {
+                // check if there was a hit
+                if (board[i][j] == -1) {
+                    System.out.println("X");
+                }
+                // check if there's a ship
+                if (board[i][j] == 1) {
+                    System.out.println("#");
+                }
+                // if there's neither a hit or a ship there's blank space
+                else {
+                    System.out.println("–");
+                }
+                j++;
+            }
+            i++;
+        }
     }
 
     public static void main(String[] args) throws IOException {
