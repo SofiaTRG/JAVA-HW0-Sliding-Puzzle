@@ -33,10 +33,16 @@ public class Main {
 
         // should we check is the sizes are good? (not bigger than max(n,m))?
 
-        // !!PLACE THE BATTLESHIPS!! (use other function and for
-        System.out.println("Enter location and orientation for battleship size s");
+        // write other function that uses the info?
 
-        // check if the placing is correct
+        // location, orientation and size of battleship
+        for(int i; i < numOfBattleship; i ++) {
+            // !instead of "s" place the battleship sizes!
+            System.out.println("Enter location and orientation for battleship size s");
+            String battleshipInfo = scanner.nextLine();
+        }
+
+        // check if the placing is correct (using Yaron's idea)
     }
 
     // from string "nXm" to array of 2 integers (cause java cannot return 2 integers)
