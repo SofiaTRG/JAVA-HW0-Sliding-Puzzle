@@ -40,6 +40,10 @@ public class Main {
             // !instead of "s" place the battleship sizes!
             System.out.println("Enter location and orientation for battleship size s");
             String battleshipInfo = scanner.nextLine();
+
+            // !HERE WOULD BE THE CALL FOR SORTING FUNCTION!
+
+
         }
 
         // check if the placing is correct (using Yaron's idea)
@@ -85,6 +89,16 @@ public class Main {
             }
             i++;
         }
+    }
+
+    //sort the str of battleships by sizes
+    public static String[] sortBySize(String input) {
+         String[] splited = splitStr(input);
+         for(int i = 0; i < splited.length; i++ ) {
+             // !SORT THE ARRAY!
+             rerutn
+         }
+
     }
 
     public static void main(String[] args) throws IOException {
