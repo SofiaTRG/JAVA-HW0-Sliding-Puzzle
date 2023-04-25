@@ -14,52 +14,63 @@ public class Main {
         System.out.println("Enter the board size:");
         String sizeBoard = scanner.nextLine();
         // cal the func extractNumbersFromStr to split to 2 integers
-        int[] sizeBoardNum = extractNumbersFromStr(sizeBoard);
+        int[] sizeBoardNum = strToIntArray(sizeBoard.split("X"));
         // n = rows, m = cols
         int n = sizeBoardNum[0];
         int m = sizeBoardNum[1];
         // making the board
+        // the board would be filled with 0 (cause it's the default for int)
         int [][] board = new int[n][m];
 
         // ?should we check if the user actually put two integers?
 
         // battleships size
         System.out.println("Enter the battleships sizes:");
-        String battleships = scanner.nextLine();
-        // make the string into number and sizes.
-        String[] battleshipsSplit = splitStr(battleships);
-        // the sizes (no needed right now. we will get the ints when we start placing the ships)
-        int numOfBattleship = battleshipsSplit.length;
+        String[] battleships = scanner.nextLine().split(" ");
 
-        // should we check is the sizes are good? (not bigger than max(n,m))?
-
-        // write other function that uses the info?
-
+        // now we'll use the data of the ships and put them on the board
         // location, orientation and size of battleship
-        for(int i; i < numOfBattleship; i ++) {
-            // !instead of "s" place the battleship sizes!
-            System.out.println("Enter location and orientation for battleship size s");
-            String battleshipInfo = scanner.nextLine();
-
-            // !HERE WOULD BE THE CALL FOR SORTING FUNCTION!
-
+        // this for loop is easier than using a loop with index
+        // !THIS IS NOT FINALL!
+        for (String s : battleships) {
+            System.out.println("Enter location and orientation for battleship size" + s);
+            String[] battleshipInfo = scanner.nextLine().split(", ");
+            // check for correct orientation
 
         }
 
         // check if the placing is correct (using Yaron's idea)
     }
-
-    // from string "nXm" to array of 2 integers (cause java cannot return 2 integers)
-    public static int[] extractNumbersFromStr(String input) {
-        String[] numbers = input.split("X");
-        int num1 = Integer.parseInt(numbers[0]);
-        int num2 = Integer.parseInt(numbers[1]);
-        return new int[] {num1, num2};
+    public static int[] strToIntArray(String[] input) {
+        int[] intArray = new int[input.length];
+        for(int i = 0;i < input.length;i++) {
+            intArray[i] = Integer.parseInt(input[i]);
+        }
+        return intArray;
     }
 
-    // split from str to str[] by " "
-    public static String[] splitStr(String input) {
-        return input.split(" ");
+    // check for correct info for ships
+    public static boolean correctOrientation(String input, int rows, int coll, int[][] board) {
+        int HORIZONTAL_ORIENTATION = 0;
+        int VERTICAL_ORIENTATION = 1;
+        // check the orientation
+        if (Integer.parseInt(input[2]) != HORIZONTAL_ORIENTATION) && (Integer.parseInt(input[2]) != VERTICAL_ORIENTATION) {
+            System.out.println("Illegal orientation, try again!");
+            return false;
+        }
+        // check if the tile is inside the board
+        if (input[0] >= rows) || (input[0] < 0) {
+            System.out.println("Illegal tile, try again!");
+            return false;
+        }
+        if (input[1] >= coll) || (input[1] < 0) {
+            System.out.println("Illegal tile, try again!");
+            return false;
+        }
+        // !CHECK IF THE WHOLE SHIP IS INSIDE THE BOARD!
+
+        // !CHECK IF THE SHIP IS NOT PLACE ON OTHER SHIP!
+
     }
 
     // display the board
@@ -89,16 +100,6 @@ public class Main {
             }
             i++;
         }
-    }
-
-    //sort the str of battleships by sizes
-    public static String[] sortBySize(String input) {
-         String[] splited = splitStr(input);
-         for(int i = 0; i < splited.length; i++ ) {
-             // !SORT THE ARRAY!
-             rerutn
-         }
-
     }
 
     public static void main(String[] args) throws IOException {
