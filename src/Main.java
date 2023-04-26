@@ -34,7 +34,26 @@ public class Main {
         for (String s : battleships) {
             System.out.println("Enter location and orientation for battleship size" + s);
             String[] battleshipInfo = scanner.nextLine().split(", ");
+            // make to array of int for easier access
+            int[] battleshipInfoInt = strToIntArray(battleshipInfo);
+
+            // !MAKE THE NEXT LINES INTO DO WHILE!
+
             // check for correct orientation
+            boolean correctInfo;
+            if (battleshipInfoInt[2] == 0){
+                correctInfo = true;
+                int orientation = 0;
+            }
+            if (battleshipInfoInt[2] == 1)) {
+                correctInfo = true;
+                int orientation = 1;
+            }
+            while (!correctInfo) {
+                System.out.println("Illegal orientation, try again!");
+                battleshipInfo = scanner.nextLine().split(", ");
+            }
+
 
         }
 
@@ -116,9 +135,6 @@ public class Main {
 
         return true;
     }
-
-
-}
 
     // display the board
     public static void printBoard(int[][] board, int rows, int coll) {
