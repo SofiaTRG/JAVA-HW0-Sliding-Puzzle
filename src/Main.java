@@ -19,8 +19,7 @@ public class Main {
         int n = sizeBoardNum[0];
         int m = sizeBoardNum[1];
         // making the board
-        // the board would be filled with 0 (cause it's the default for int)
-        char [][] board = new char[][][n][m];
+        String [][] board = makeBoard(n, m);
 
         // ?should we check if the user actually put two integers?
 
@@ -91,31 +90,35 @@ public class Main {
             }
             board[i + 1][0] += i + "";
         }
-        return board
+        return board;
     }
     // check for correct info for ships
     public static boolean correctOrientation(String input, int rows, int coll, int[][] board) {
         int HORIZONTAL_ORIENTATION = 0;
         int VERTICAL_ORIENTATION = 1;
         // check the orientation
-        if (Integer.parseInt(input[2]) != HORIZONTAL_ORIENTATION) && (Integer.parseInt(input[2]) != VERTICAL_ORIENTATION) {
+        if ((Integer.parseInt(input.charAt(2)) != HORIZONTAL_ORIENTATION) && (Integer.parseInt(input.charAt(2)) != VERTICAL_ORIENTATION)) {
             System.out.println("Illegal orientation, try again!");
             return false;
         }
         // check if the tile is inside the board
-        if (input[0] >= rows) || (input[0] < 0) {
+        if ((input.charAt(0) >= rows) || (input.charAt(0) < '0')) {
             System.out.println("Illegal tile, try again!");
             return false;
         }
-        if (input[1] >= coll) || (input[1] < 0) {
+        if ((input.charAt(1) >= coll) || (input.charAt(1) < '0')) {
             System.out.println("Illegal tile, try again!");
             return false;
         }
-        // !CHECK IF THE WHOLE SHIP IS INSIDE THE BOARD!
+        // CHECK IF THE WHOLE SHIP IS INSIDE THE BOARD!
 
-        // !CHECK IF THE SHIP IS NOT PLACE ON OTHER SHIP!
+        // CHECK IF THE SHIP IS NOT PLACE ON OTHER SHIP!
 
+        return true;
     }
+
+
+}
 
     // display the board
     public static void printBoard(int[][] board, int rows, int coll) {
