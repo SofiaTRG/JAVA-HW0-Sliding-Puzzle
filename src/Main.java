@@ -20,7 +20,7 @@ public class Main {
         int m = sizeBoardNum[1];
         // making the board
         // the board would be filled with 0 (cause it's the default for int)
-        int [][] board = new int[n][m];
+        char [][] board = new char[][][n][m];
 
         // ?should we check if the user actually put two integers?
 
@@ -49,6 +49,50 @@ public class Main {
         return intArray;
     }
 
+    // count how much digit in n to know how spaces to put on board
+    public static int digitCount(int num) {
+        int count = 0;
+        while (num != 0) {
+            num /= 10;
+            count++;
+        }
+        return count;
+    }
+
+    // make the board
+    public static String[][] makeBoard(int n, int m) {
+        // m+1 and n+1 because the first row and column of the board are used for labels
+        // fill the board with "-"
+        String[][] board = new String[n+1][m+1];
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m+1; j++) {
+                board[i][j] = "-";
+            }
+        }
+
+        int space_Num = digitCount(n);
+        // first tille as lenght of digit of n
+        board[0][0] = "";
+        for (int i = 0; i < space_Num; i++) {
+            board[0][0] += " ";
+        }
+        // number the first row
+        for (int j = 0; (j + 1) < (m + 1); j++) {
+            board[0][j + 1] = j + "";
+        }
+        // number the first col
+        for (int i = 0; (i + 1) < (n + 1); i++) {
+            // count the spaces before each number
+            int sumSpaces = space_Num - digitCount(i);
+            board[i + 1][0] = "";
+            // row number and spaces
+            for (int j = 0; j < sumSpaces; j++) {
+                board[i + 1][0] += " ";
+            }
+            board[i + 1][0] += i + "";
+        }
+        return board
+    }
     // check for correct info for ships
     public static boolean correctOrientation(String input, int rows, int coll, int[][] board) {
         int HORIZONTAL_ORIENTATION = 0;
