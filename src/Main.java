@@ -23,9 +23,8 @@ public class Main {
         System.out.println("Enter the battleships sizes:");
         String[] battleships = scanner.nextLine().split(" ");
 
-        // chack location, orientation and size of battleship
+        // check location, orientation and size of battleship
         // this for loop is easier than using a loop with index
-        // !THIS IS NOT FINALL!
         for (String s : battleships) {
             String[] currentBattleship = s.split("x");
             // get the number and sizes of the current battleships
@@ -33,9 +32,10 @@ public class Main {
             int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
             // make another loop for the number of the current size
             for (int i = 0; i < numCurrentBattleship; i++) {
-                int orientation = -1;
+                int orientation;
                 boolean boundaries;
                 boolean overlap;
+                boolean adjacent;
                 System.out.println("Enter location and orientation for battleship size" + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
@@ -47,6 +47,7 @@ public class Main {
                     orientation = checkOrientation(orientation);
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     overlap = checkOverlap(board, currentSizeBattleship, rowBattleship, colBattleship, orientation);
+                    adjacent = checkAdjacent(board, rowBattleship, colBattleship);
                     // we got the correct orientation
                     if (orientation == -1) {
                         System.out.println("Illegal orientation, try again!");
@@ -57,8 +58,10 @@ public class Main {
                         // check overlap
                     } else if (!overlap) {
                         System.out.println("Battleship overlaps another battleship, try again!");
+                    } else if (!adjacent) {
+                        System.out.println("Adjacent battleship detected, try again!");
                     }
-                } while (orientation == -1 || !boundaries || !overlap);
+                } while (orientation == -1 || !boundaries || !overlap || !adjacent);
             }
         }
 
@@ -86,7 +89,7 @@ public class Main {
             }
         }
         int space_Num = digitCount(n);
-        // first tille as lenght of digit of n
+        // first tile as length of digit of n
         board[0][0] = "";
         for (int i = 0; i < space_Num; i++) {
             board[0][0] += " ";
@@ -128,24 +131,24 @@ public class Main {
     // use the board, the size of ship, the tiles and the orientation
     public static boolean checkOverlap(String[][] board, int sizeShip, int row, int col,  int orientation) {
         int HORIZONTAL = 0;
+        String ALREADY_PLACED = "#";
         // check for horizontal ship
         if (orientation == HORIZONTAL) {
             // use the size of the ship to calculate the space
             for (int i = 0; i < sizeShip; i++) {
-                if (board[row][col + 1] == "#") {
+                if (board[row][col + 1].equals(ALREADY_PLACED)) {
                     return false;
                 }
             }
-            return true;
             // check for vertical ships
         } else {
             for (int j = 0; j < sizeShip; j++) {
-                if (board[row + j][col] == "#") {
+                if (board[row + j][col].equals(ALREADY_PLACED)) {
                     return false;
                 }
             }
-            return true;
         }
+        return true;
     }
 
     // check if the battleship is inside the board
@@ -155,7 +158,6 @@ public class Main {
         int HORIZONTAL = 0;
         // check for horizontal ship
         if (orientation == HORIZONTAL) {
-            //
             for (int i = 0; i < sizeBattleship; i++) {
                 if ((colBattleship + i) > m) {
                     return false;
@@ -172,34 +174,26 @@ public class Main {
         return true;
     }
 
-    // ALSO MIGHT GET DELETED
-    // display the board
-    public static void printBoard(int[][] board, int rows, int coll) {
-
-        // !PRINT THE NUMBERS ON THE TOP OF THE BOARD AND ON THE SIDE! HAVE NO IDEA HOW
-
-        // 0 - no ship, 1 - ship, -1 - a hit
-        // go by indexes (i for rows, j for coll). and check for the state in this place
-        int i = 0;
-        while (i < rows) {
-            int j = 0;
-            while (j < coll) {
-                // check if there was a hit
-                if (board[i][j] == -1) {
-                    System.out.println("X");
+    // check adjacent of battleships
+    public static boolean checkAdjacent(String[][] board, int row, int col) {
+        // MIN, MAX : the range of the board
+        int MIN = 0;
+        int MAX = (board.length - 1);
+        int TOP = -2;
+        int LEFT = -2;
+        int BOT = 2;
+        int RIGHT = 2;
+        // check in range of 2
+        for (int i = row + TOP; i <= row + BOT; i++) {
+            for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
+                if ((i >= MIN) && (i <= MAX) && (j >= MIN) && (j <= MAX)){
+                    if (board[i][j].equals("v")) {
+                        return false;
+                    }
                 }
-                // check if there's a ship
-                if (board[i][j] == 1) {
-                    System.out.println("#");
-                }
-                // if there's neither a hit or a ship there's blank space
-                else {
-                    System.out.println("–");
-                }
-                j++;
             }
-            i++;
         }
+        return true;
     }
 
     public static void main(String[] args) throws IOException {
