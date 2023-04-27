@@ -12,13 +12,9 @@ public class Main {
         // user input:
         // size of board
         System.out.println("Enter the board size:");
-        String sizeBoard = scanner.nextLine();
-        // cal the func extractNumbersFromStr to split to 2 integers
-        int[] sizeBoardNum = strToIntArray(sizeBoard.split("X"));
-        // n = rows, m = cols
-        int n = sizeBoardNum[0];
-        int m = sizeBoardNum[1];
-        // making the board
+        String[] sizeStr = scanner.nextLine().split("x");
+        int n = Integer.parseInt(sizeStr[0]);
+        int m = Integer.parseInt(sizeStr[1]);
         String [][] board = makeBoard(n, m);
 
         // ?should we check if the user actually put two integers?
@@ -31,11 +27,10 @@ public class Main {
         // this for loop is easier than using a loop with index
         // !THIS IS NOT FINALL!
         for (String s : battleships) {
-            // make the string of NiXSi into array of ints
-            int[] currentBattleship = strToIntArray(s.split("X"));
+            String[] currentBattleship = s.split("x");
             // get the number and sizes of the current battleships
-            int numCurrentBattleship = currentBattleship[0];
-            int currentSizeBattleship = currentBattleship[1];
+            int numCurrentBattleship = Integer.parseInt(currentBattleship[0]);
+            int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
             // make another loop for the number of the current size
             for (int i = 0; i < numCurrentBattleship; i++) {
                 int orientation = -1;
@@ -45,12 +40,13 @@ public class Main {
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
                     String[] battleshipInfo = scanner.nextLine().split(", ");
-                    // make to array of int for easier access
-                    int[] battleshipInfoInt = strToIntArray(battleshipInfo);
+                    int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
+                    int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
+                    orientation = Integer.parseInt(battleshipInfo[2].trim());
                     // check for correct orientation
-                    orientation = checkOrientation(battleshipInfoInt[2]);
-                    boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, battleshipInfoInt[0], battleshipInfoInt[1], orientation);
-                    overlap = checkOverlap(board, currentSizeBattleship, battleshipInfoInt[0], battleshipInfoInt[1], orientation);
+                    orientation = checkOrientation(orientation);
+                    boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
+                    overlap = checkOverlap(board, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     // we got the correct orientation
                     if (orientation == -1) {
                         System.out.println("Illegal orientation, try again!");
@@ -67,13 +63,6 @@ public class Main {
         }
 
         // check if the placing is correct (using Yaron's idea)
-    }
-    public static int[] strToIntArray(String[] input) {
-        int[] intArray = new int[input.length];
-        for(int i = 0;i < input.length;i++) {
-            intArray[i] = Integer.parseInt(input[i]);
-        }
-        return intArray;
     }
 
     // count how much digit in n to know how spaces to put on board
