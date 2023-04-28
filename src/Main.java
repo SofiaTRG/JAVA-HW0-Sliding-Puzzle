@@ -12,12 +12,12 @@ public class Main {
         // user input:
         // size of board
         System.out.println("Enter the board size:");
-        String[] sizeStr = scanner.nextLine().split("x");
+        String[] sizeStr = scanner.nextLine().split("x"); // Is jave case-sensitive language?
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
         String [][] board = makeBoard(n, m);
 
-        // ?should we check if the user actually put two integers?
+        // ?should we check if the user actually put two integers? // Answer: no.
 
         // battleships size
         System.out.println("Enter the battleships sizes:");
