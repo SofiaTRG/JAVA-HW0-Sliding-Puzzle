@@ -282,9 +282,9 @@ public class Main {
     // check if hit a battleship
     public static boolean hitBattleship(int rowBattleship, int colBattleship,String[][] board) {
         String A_BATTLESHIP = "#";
-        if board[rowBattleship][colBattleship].equals(A_BATTLESHIP)
+        if (board[rowBattleship][colBattleship].equals(A_BATTLESHIP))
                 return true;
-        return false
+        return false;
     }
 
     // check if a battleship sunk
