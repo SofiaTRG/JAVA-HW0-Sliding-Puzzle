@@ -12,7 +12,7 @@ public class Main {
         // user input:
         // size of board
         System.out.println("Enter the board size:");
-        String[] sizeStr = scanner.nextLine().split("x"); // Is jave case-sensitive language?
+        String[] sizeStr = scanner.nextLine().split("x"); // Is java case-sensitive language?
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
         String [][] userBoard = makeBoard(n, m);
@@ -74,12 +74,12 @@ public class Main {
                 } while (orientation == -1 || !boundaries || !overlap || !adjacent);
             }
         }
-        initalizeComputerBoard(compBoard, battleships, n, m);
+        initializeComputerBoard(compBoard, battleships, n, m);
         // check if the placing is correct (using Yaron's idea)
     }
 
-    // intialize the computer battleships and place them on the board
-    public static void initalizeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
+    // initialize the computer battleships and place them on the board
+    public static void initializeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
         for (String s : battleships) {
             String[] currentBattleship = s.split("X");
             // get the number and sizes of the current battleships
