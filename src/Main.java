@@ -68,7 +68,7 @@ public class Main {
                     } else if (!adjacent) {
                         System.out.println("Adjacent battleship detected, try again!");
                     }
-                    putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship); // new
+                    putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
                     System.out.println("Your current game board:");
                     printGameBoard(userBoard, n, m);
                 } while (orientation == -1 || !boundaries || !overlap || !adjacent);
@@ -78,6 +78,7 @@ public class Main {
         // check if the placing is correct (using Yaron's idea)
     }
 
+    // intialize the computer battleships and place them on the board
     public static void initalizeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
         for (String s : battleships) {
             String[] currentBattleship = s.split("X");
