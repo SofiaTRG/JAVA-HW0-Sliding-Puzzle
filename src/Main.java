@@ -88,6 +88,7 @@ public class Main {
             // make another loop for the number of the current size
             for (int i = 0; i < numCurrentBattleship; i++) {
                 int orientation;
+                boolean tile;
                 boolean boundaries;
                 boolean overlap;
                 boolean adjacent;
@@ -100,6 +101,9 @@ public class Main {
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     overlap = checkOverlap(compBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     adjacent = checkAdjacent(compBoard, rowBattleship, colBattleship);
+                    tile = checkStartingTile(n, m, rowBattleship, colBattleship);
+                    if (!tile)
+                        continue;
                     if (!boundaries)
                         continue;
                     if (!overlap)
