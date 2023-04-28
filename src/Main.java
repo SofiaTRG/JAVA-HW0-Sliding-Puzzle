@@ -179,10 +179,10 @@ public class Main {
         // MIN, MAX : the range of the board
         int MIN = 0;
         int MAX = (board.length - 1);
-        int TOP = -2;
-        int LEFT = -2;
-        int BOT = 2;
-        int RIGHT = 2;
+        int TOP = -1;
+        int LEFT = -1;
+        int BOT = 1;
+        int RIGHT = 1;
         // check in range of 2
         for (int i = row + TOP; i <= row + BOT; i++) {
             for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
