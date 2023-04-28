@@ -15,7 +15,8 @@ public class Main {
         String[] sizeStr = scanner.nextLine().split("x");
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
-        String [][] board = makeBoard(n, m);
+        String [][] userBoard = makeBoard(n, m);
+        String [][] compBoard = makeBoard(n, m);
 
         // ?should we check if the user actually put two integers?
 
@@ -36,6 +37,7 @@ public class Main {
                 boolean boundaries;
                 boolean overlap;
                 boolean adjacent;
+                printGameBoard(userBoard, n, m);
                 System.out.println("Enter location and orientation for battleship size" + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
@@ -46,8 +48,8 @@ public class Main {
                     // check for correct orientation
                     orientation = checkOrientation(orientation);
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    overlap = checkOverlap(board, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    adjacent = checkAdjacent(board, rowBattleship, colBattleship);
+                    overlap = checkOverlap(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
+                    adjacent = checkAdjacent(userBoard, rowBattleship, colBattleship);
                     // we got the correct orientation
                     if (orientation == -1) {
                         System.out.println("Illegal orientation, try again!");
@@ -61,11 +63,47 @@ public class Main {
                     } else if (!adjacent) {
                         System.out.println("Adjacent battleship detected, try again!");
                     }
+                    putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship); // new
+                    System.out.println("Your current game board:");
+                    printGameBoard(userBoard, n, m);
                 } while (orientation == -1 || !boundaries || !overlap || !adjacent);
             }
         }
-
+        initalizeComputerBoard(compBoard, battleships, n, m);
         // check if the placing is correct (using Yaron's idea)
+    }
+
+    public static void initalizeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
+        for (String s : battleships) {
+            String[] currentBattleship = s.split("X");
+            // get the number and sizes of the current battleships
+            int numCurrentBattleship = Integer.parseInt(currentBattleship[0]);
+            int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
+            // make another loop for the number of the current size
+            for (int i = 0; i < numCurrentBattleship; i++) {
+                int orientation;
+                boolean boundaries;
+                boolean overlap;
+                boolean adjacent;
+                // the next do while will continue run till all the three parameters of the ship are correct
+                do {
+                    Random rnd = new Random();
+                    int rowBattleship = rnd.nextInt(n);
+                    int colBattleship = rnd.nextInt(m);
+                    orientation = rnd.nextInt(2);
+                    boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
+                    overlap = checkOverlap(compBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
+                    adjacent = checkAdjacent(compBoard, rowBattleship, colBattleship);
+                    if (!boundaries)
+                        continue;
+                    if (!overlap)
+                        continue;
+                    if (!adjacent)
+                        continue;
+                    putInBoard(compBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
+                } while (!boundaries || !overlap || !adjacent);
+            }
+        }
     }
 
     // count how much digit in n to know how spaces to put on board
@@ -110,6 +148,32 @@ public class Main {
             board[i + 1][0] += i + "";
         }
         return board;
+    }
+
+    // print the board
+    public static void printGameBoard(String[][]board, int row, int col){
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    // Putting BattleShip into the user's GameBoard
+    public static void putInBoard(String[][] board,int rowBattleship,int colBattleship,int orientation, int currentSizeBattleship){
+        int HORIZONTAL = 0;
+        if(orientation == HORIZONTAL){
+            for(int i=0; i<currentSizeBattleship; i++) {
+                board[rowBattleship][colBattleship + i] = "# ";
+            }
+        }
+        else {
+            // Now we know the orientation is vertical
+            for(int i=0; i<currentSizeBattleship; i++) {
+                board[rowBattleship + i][colBattleship] = "# ";
+            }
+        }
     }
 
     // check for correct orientation
