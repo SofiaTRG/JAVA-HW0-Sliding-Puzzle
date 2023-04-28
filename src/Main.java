@@ -12,13 +12,13 @@ public class Main {
         // user input:
         // size of board
         System.out.println("Enter the board size:");
-        String[] sizeStr = scanner.nextLine().split("x");
+        String[] sizeStr = scanner.nextLine().split("x"); // Is jave case-sensitive language?
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
         String [][] userBoard = makeBoard(n, m);
         String [][] compBoard = makeBoard(n, m);
 
-        // ?should we check if the user actually put two integers?
+        // ?should we check if the user actually put two integers? // Answer: no.
 
         // battleships size
         System.out.println("Enter the battleships sizes:");
@@ -34,6 +34,7 @@ public class Main {
             // make another loop for the number of the current size
             for (int i = 0; i < numCurrentBattleship; i++) {
                 int orientation;
+                boolean tile;
                 boolean boundaries;
                 boolean overlap;
                 boolean adjacent;
@@ -41,12 +42,14 @@ public class Main {
                 System.out.println("Enter location and orientation for battleship size" + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
+                    //We need to print the current board here I think.
                     String[] battleshipInfo = scanner.nextLine().split(", ");
                     int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
                     int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
                     orientation = Integer.parseInt(battleshipInfo[2].trim());
                     // check for correct orientation
                     orientation = checkOrientation(orientation);
+                    tile = checkStartingTile(n, m, rowBattleship, colBattleship);
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     overlap = checkOverlap(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     adjacent = checkAdjacent(userBoard, rowBattleship, colBattleship);
@@ -55,6 +58,8 @@ public class Main {
                         System.out.println("Illegal orientation, try again!");
                         // check if the chosen tile is inside the board
                         // MAYBE MAKE FUNCTIONS THAT CHECKS IF THE TILES ARE CORRECT
+                    } else if(!tile){
+                         System.out.println("Illegal tile, try again!");
                     } else if (!boundaries) {
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         // check overlap
@@ -123,7 +128,7 @@ public class Main {
         String[][] board = new String[n+1][m+1];
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m+1; j++) {
-                board[i][j] = "-";
+                board[i][j] = "-";  // Why not : '-' ?
             }
         }
         int space_Num = digitCount(n);
@@ -190,7 +195,14 @@ public class Main {
             return ERROR;
         }
     }
-
+    
+    //check for starting tile
+    public static boolean checkStartingTile(int row, int col, int rowBattleship, int colBattleship) {
+        if (rowBattleship < 0 || rowBattleship >= row || colBattleship < 0 || colBattleship >= col)
+            return false;
+        return true;
+    }
+  
     // check overlap of battleships.
     // use the board, the size of ship, the tiles and the orientation
     public static boolean checkOverlap(String[][] board, int sizeShip, int row, int col,  int orientation) {
