@@ -279,6 +279,14 @@ public class Main {
         return true;
     }
 
+    // check if hit a battleship
+    public static boolean hitBattleship(int rowBattleship, int colBattleship,String[][] board) {
+        String A_BATTLESHIP = "#";
+        if board[rowBattleship][colBattleship].equals(A_BATTLESHIP)
+                return true;
+        return false
+    }
+
     // check if a battleship sunk
     // it checks if after the attack around the tile the same tiles on the guessing board are the same the player's board
     public static boolean battleshipDrown(int rowBattleship, int colBattleship, String[][] board, String[][] guessBoard) {
