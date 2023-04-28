@@ -12,13 +12,11 @@ public class Main {
         // user input:
         // size of board
         System.out.println("Enter the board size:");
-        String[] sizeStr = scanner.nextLine().split("x"); // Is java case-sensitive language?
+        String[] sizeStr = scanner.nextLine().split("X"); // Is java case-sensitive language?
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
         String [][] userBoard = makeBoard(n, m);
         String [][] compBoard = makeBoard(n, m);
-
-        // ?should we check if the user actually put two integers? // Answer: no.
 
         // battleships size
         System.out.println("Enter the battleships sizes:");
@@ -27,7 +25,7 @@ public class Main {
         // check location, orientation and size of battleship
         // this for loop is easier than using a loop with index
         for (String s : battleships) {
-            String[] currentBattleship = s.split("x");
+            String[] currentBattleship = s.split("X");
             // get the number and sizes of the current battleships
             int numCurrentBattleship = Integer.parseInt(currentBattleship[0]);
             int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
@@ -76,6 +74,10 @@ public class Main {
         }
         initializeComputerBoard(compBoard, battleships, n, m);
         // check if the placing is correct (using Yaron's idea)
+
+        // create a guessing board for the player
+        String[][] guessBoard= makeBoard(n,m);
+        // HERE'S GONNA BE THE ATTACK
     }
 
     // initialize the computer battleships and place them on the board
@@ -264,7 +266,7 @@ public class Main {
         int LEFT = -1;
         int BOT = 1;
         int RIGHT = 1;
-        // check in range of 2
+        // check in range of 1
         for (int i = row + TOP; i <= row + BOT; i++) {
             for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
                 if ((i >= MIN) && (i <= MAX) && (j >= MIN) && (j <= MAX)){
@@ -273,6 +275,39 @@ public class Main {
                     }
                 }
             }
+        }
+        return true;
+    }
+
+    // check if a battleship sunk
+    // it checks if after the attack around the tile the same tiles on the guessing board are the same the player's board
+    public static boolean battleshipDrown(int rowBattleship, int colBattleship, String[][] board, String[][] guessBoard) {
+        int MIN = 0;
+        // check horizontal to right
+        for (int i = colBattleship; i < board[MIN].length; i++){
+            if (board[rowBattleship][i].equals("#") && !guessBoard[rowBattleship][i].equals("V"))
+                    return false;
+        }
+        // check horizontal to left
+        for (int i = colBattleship; i >= MIN; i--){
+            if (board[rowBattleship][i].equals("#") && !guessBoard[rowBattleship][i].equals("V"))
+                return false;
+            //avoid negative indices
+            if (i == MIN)
+                break;
+        }
+        // check vertical to top
+        for (int j = rowBattleship; j >= MIN; j--){
+            if (board[j][colBattleship].equals("#") && !guessBoard[j][colBattleship].equals("V"))
+                return false;
+        }
+        // check vertical to bot
+        for (int j = rowBattleship; j < board.length; j++){
+            if (board[j][colBattleship].equals("#") && !guessBoard[j][colBattleship].equals("V"))
+                return false;
+            //avoid negative indices
+            if (j == MIN)
+                break;
         }
         return true;
     }
