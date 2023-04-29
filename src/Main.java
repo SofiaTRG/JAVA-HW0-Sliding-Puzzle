@@ -92,7 +92,7 @@ public class Main {
                     tile = checkStartingTile(n, m, rowBattleship, colBattleship);
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     overlap = checkOverlap(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    adjacent = checkAdjacent(userBoard, rowBattleship, colBattleship);
+                    adjacent = checkAdjacentBattleship(userBoard, rowBattleship, colBattleship, currentSizeBattleship, orientation);
 
                     if (orientation == -1) {
                         System.out.println("Illegal orientation, try again!");
@@ -159,7 +159,7 @@ public class Main {
             int colAttack = Integer.parseInt(userAttackCord[1]);
             if (!checkStartingTile(n, m, rowAttack, colAttack)) {
                 System.out.println("Illegal tile, try again!");
-            } else if (!isAlreadyBeenAttacked(userGuessBoard, rowAttack, colAttack)) {
+            } else if (isAlreadyBeenAttacked(userGuessBoard, rowAttack, colAttack)) {
                 System.out.println("Tile already attacked, try again!");
             } else {
                 if (isAttackMissed(compBoard, rowAttack, colAttack)) {
@@ -257,7 +257,7 @@ public class Main {
 
     //checks if the coordinates already been attacked in the past
     public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col){
-        return board[row][col].equals("-");
+        return !board[row][col].equals("-");
     }
 
     //check if the attack missed a battleship
@@ -371,7 +371,7 @@ public class Main {
         return true;
     }
 
-    // check adjacent of battleships
+    // check adjacent of one tile of battleships
     public static boolean checkAdjacent(String[][] board, int row, int col) {
         // MIN, MAX : the range of the board
         int MIN = 0;
@@ -384,9 +384,32 @@ public class Main {
         for (int i = row + TOP; i <= row + BOT; i++) {
             for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
                 if ((i >= MIN) && (i <= MAX) && (j >= MIN) && (j <= MAX)){
-                    if (board[i][j].equals("v")) {
+                    if (board[i][j].equals("#")) {
                         return false;
                     }
+                }
+            }
+        }
+        return true;
+    }
+
+    // check adjacent of whole battleships
+    public static boolean checkAdjacentBattleship(String[][] board, int row, int col, int size, int orientation) {
+        int HORIZONTAL = 0;
+        // for horizontal ship placement
+        // check every tile of the ship
+        if (orientation == HORIZONTAL) {
+            for (int i = 0; i < size; i++) {
+                if (!checkAdjacent(board, row, col + 1)) {
+                    return false;
+                }
+            }
+            // for vertical ship placement
+            // check every tile of the ship
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (!checkAdjacent(board, row + 1, col)) {
+                    return false;
                 }
             }
         }
