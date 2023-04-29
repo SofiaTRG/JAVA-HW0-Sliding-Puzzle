@@ -69,7 +69,7 @@ public class Main {
                     putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
                     System.out.println("Your current game board:");
                     printGameBoard(userBoard, n, m);
-                } while (orientation == -1 || !boundaries || !overlap || !adjacent);
+                } while (orientation == -1 || !boundaries || !overlap || !adjacent || !tile);
             }
         }
         initializeComputerBoard(compBoard, battleships, n, m);
@@ -113,7 +113,7 @@ public class Main {
                     if (!adjacent)
                         continue;
                     putInBoard(compBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
-                } while (!boundaries || !overlap || !adjacent);
+                } while (!boundaries || !overlap || !adjacent || !tile);
             }
         }
     }
