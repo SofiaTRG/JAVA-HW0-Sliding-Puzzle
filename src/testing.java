@@ -117,24 +117,23 @@ class Main2 {
 
             /** make another loop for the number of the current size */
             for (int i = 0; i < numCurrentBattleship; i++) {
-                boolean correctPlacement;
+                boolean correctPlacement = false;
                 printGameBoard(userBoard);
                 System.out.println("Enter location and orientation for battleship size " + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
-                do {
+                while (!correctPlacement) {
                     String[] battleshipInfo = scanner.nextLine().split(", ");
                     int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
                     int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
                     int orientation = Integer.parseInt(battleshipInfo[2].trim());
-                    correctPlacement = checkCorrectPlacement(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-
-                    if (!correctPlacement) {
-                        continue;
+                    correctPlacement = checkCorrectPlacement(userBoard, currentSizeBattleship, rowBattleship,
+                            colBattleship, orientation);
+                    if (correctPlacement) {
+                        putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
+                        System.out.println("Your current game board:");
+                        printGameBoard(userBoard);
                     }
-                    putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
-                    System.out.println("Your current game board:");
-                    printGameBoard(userBoard);
-                } while (!correctPlacement);
+                }
             }
         }
         return totalBattleships;
