@@ -575,6 +575,10 @@ public class Main {
         return true;
     }
 
+    // NOT FINAL!!!!
+    public static boolean checkCorrectPlacement() {
+        return;
+    }
 
     // check if hit a battleship
     public static boolean hitBattleship(int rowBattleship, int colBattleship,String[][] board) {
