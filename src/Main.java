@@ -417,7 +417,7 @@ public class Main {
         for (int i = 0; i < currentboard.length + 1; i++) {
             for (int j = 0; j < currentboard[0].length + 1; j++) {
                 if(i==0&&j==0)
-                    System.out.print(" ");
+                    System.out.print("  ");
                 else if(i==0)
                     System.out.print(j-1+" ");
                 else if(j==0)
@@ -575,6 +575,7 @@ public class Main {
         return true;
     }
 
+
     // check if hit a battleship
     public static boolean hitBattleship(int rowBattleship, int colBattleship,String[][] board) {
         String A_BATTLESHIP = "#";
@@ -582,10 +583,6 @@ public class Main {
             return true;
         return false;
     }
-
-    // check if a battleship sunk
-    // it checks if after the attack around the tile the same tiles on the guessing board
-    // are the same the player's board
 
     /**
      * Check if a battleship is sunk by comparing the area of a hit between the guessing board
@@ -599,29 +596,29 @@ public class Main {
     public static boolean battleshipDrown(int rowBattleship, int colBattleship, String[][] board,
                                           String[][] guessBoard) {
         int MIN = 0;
-        // check horizontal to right
+        /** check horizontal to right */
         for (int i = colBattleship; i < board[MIN].length; i++){
             if (board[rowBattleship][i].equals("#") && !guessBoard[rowBattleship][i].equals("V"))
                 return false;
         }
-        // check horizontal to left
+        /** check horizontal to left */
         for (int i = colBattleship; i >= MIN; i--){
             if (board[rowBattleship][i].equals("#") && !guessBoard[rowBattleship][i].equals("V"))
                 return false;
-            //avoid negative indices
+            /**avoid negative indices */
             if (i == MIN)
                 break;
         }
-        // check vertical to top
+        /** check vertical to top */
         for (int j = rowBattleship; j >= MIN; j--){
             if (board[j][colBattleship].equals("#") && !guessBoard[j][colBattleship].equals("V"))
                 return false;
         }
-        // check vertical to bot
+        /** check vertical to bot */
         for (int j = rowBattleship; j < board.length; j++){
             if (board[j][colBattleship].equals("#") && !guessBoard[j][colBattleship].equals("V"))
                 return false;
-            //avoid negative indices
+            /**avoid negative indices */
             if (j == MIN)
                 break;
         }
