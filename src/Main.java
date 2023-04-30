@@ -9,13 +9,13 @@ public class Main {
 
     public static void battleshipGame() {
 
-        /* board issues */
+        /** board issues */
         System.out.println("Enter the board size:");
         String[] sizeStr = scanner.nextLine().split("X");
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
 
-        /* making 2 boards and 2 guessing boards */
+        /** making 2 boards and 2 guessing boards */
         String[][] userGuessBoard = makeBoard(n, m);
         String[][] compGuessBoard = makeBoard(n, m);
         String[][] userBoard = makeBoard(n, m);
@@ -25,32 +25,31 @@ public class Main {
         String[][] boardTest = makeBoardNew(n, m);
         printBoardNew(boardTest);
 
-        /* making array of battleships*/
-
+        /** making array of battleships*/
         System.out.println("Enter the battleships sizes:");
         String[] battleships = scanner.nextLine().split(" ");
 
-        //initializing user & computer boards and set the total number of battleship into "totalBattleships" variable.
+        /**initializing user & computer boards and set the total number
+         * of battleship into "totalBattleships" variable */
         int totalBattleships = initializeUserBoard(userBoard, battleships, n, m);
         initializeComputerBoard(compBoard, battleships, n, m);
 
-        /*
+        /**
          Creating new array of total battleships that still in the game
          battleshipState[0] for the user
          battleshipState[1] for the computer
          */
-
         int[] battleshipState = {totalBattleships, totalBattleships};
 
-        /* Attack Mode*/
+        /** Attack Mode */
         while(true) {
-            //User attack the computer now.
+            /**User attack the computer now. */
             userAttackComputer(userGuessBoard, compBoard, compGuessBoard, battleshipState, n, m);
             if(battleshipState[1] == 0){
                 System.out.println("You won the game!");
                 break;
             }
-            //Computer attack the user now.
+            /**Computer attack the user now. */
             computerAttackUser(compGuessBoard, userBoard, userGuessBoard, battleshipState, n, m);
             if(battleshipState[0] == 0){
                 System.out.println("You lost ):");
@@ -60,6 +59,15 @@ public class Main {
     }
 
     // initialize user's board and on the way returning the total amount of battleship in the current game.
+
+    /**
+     *
+     * @param userBoard
+     * @param battleships
+     * @param n
+     * @param m
+     * @return
+     */
     public static int initializeUserBoard (String[][] userBoard, String[] battleships, int n, int m){
         // check location, orientation and size of battleship
         // this for loop is easier than using a loop with index
@@ -123,6 +131,15 @@ public class Main {
         return totalBattleships;
     }
 
+    /**
+     *
+     * @param userBoard
+     * @param userGuessBoard
+     * @param compGuessBoard
+     * @param battleshipState
+     * @param n
+     * @param m
+     */
     public static void computerAttackUser(String[][] userBoard, String[][] userGuessBoard, String[][] compGuessBoard,
                                           int[] battleshipState, int n, int m) {
 
@@ -151,6 +168,15 @@ public class Main {
         } while (flag);
     }
 
+    /**
+     *
+     * @param userGuessBoard
+     * @param compBoard
+     * @param compGuessBoard
+     * @param battleshipState
+     * @param n
+     * @param m
+     */
     public static void userAttackComputer(String[][] userGuessBoard, String[][] compBoard, String[][] compGuessBoard,
                                           int[] battleshipState, int n, int m) {
         System.out.println("Your current guessing board:");
@@ -183,6 +209,13 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * @param compBoard
+     * @param battleships
+     * @param n
+     * @param m
+     */
     // initialize the computer battleships and place them on the board
     public static void initializeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
         for (String s : battleships) {
@@ -231,6 +264,14 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * @param board
+     * @param rowBattleship
+     * @param colBattleship
+     * @param orientation
+     * @param currentSizeBattleship
+     */
     // Putting BattleShip into the user's GameBoard
     public static void putInBoard(String[][] board,int rowBattleship,int colBattleship,int orientation, int currentSizeBattleship){
         int HORIZONTAL = 0;
@@ -247,29 +288,63 @@ public class Main {
         }
     }
 
-    //This function receives coordinates and checks if they are in the boundary of the board
+    /**
+     * Receives coordinates of a battleship we want to put on the game board
+     * and checks if they are in the boundary of the board
+     * @param row The number of rows in the game board
+     * @param col The number of columns in the game board
+     * @param rowBattleship The row of the first tile we want this battleship to be placed
+     * @param colBattleship The columns of the first tile we want this battleship to be placed
+     * @return True if the tile is inside the boundaries of the game board,
+     * false otherwise
+     */
     public static boolean checkStartingTile(int row, int col, int rowBattleship, int colBattleship) {
         if (rowBattleship < 0 || rowBattleship >= row || colBattleship < 0 || colBattleship >= col)
             return false;
         return true;
     }
 
-    //this function update a given board according to the coordinate and the sign
+    /**
+     * Update a given board according to the coordinate and the sign
+     * @param board
+     * @param row
+     * @param col
+     * @param sign
+     */
     public static void updateBoard(String[][] board, int row, int col, String sign){
         board[row][col] = sign;
     }
 
-    //checks if the coordinates already been attacked in the past
+    /**
+     * Checks if the coordinates already been attacked
+     * using the guessing board, and the tile
+     * @param board The guessing board
+     * @param row The row of an attack tile
+     * @param col The column of an attack tile
+     * @return True if the tile has been attacked before,
+     * false, otherwise
+     */
     public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col){
         return !board[row][col].equals("-");
     }
 
-    //check if the attack missed a battleship
+    /**
+     * Check if the attack missed a battleship
+     * using the game board and the tile
+     * @param board The private game board
+     * @param row The row of an attack tile
+     * @param col The column of an attack tile
+     * @return True for miss, false for a hit
+     */
     public static boolean isAttackMissed(String[][] board, int row, int col){
         return board[row][col].equals("-");
     }
 
-    // count how much digit in n to know how spaces to put on board
+    /**
+     * counts the number of digit in number
+     * @param num The number we want to check its digits
+     * @return The number of digit
+     */
     public static int digitCount(int num) {
         int count = 0;
         while (num != 0) {
@@ -313,7 +388,12 @@ public class Main {
         return board;
     }
 
-    // make a board that filled with "-"
+    /**
+     * Makes matrix of the board that filled with "-" using the row and column input
+     * @param n The number of rows
+     * @param m The number of columns
+     * @return The matrix of the board filled with "-"
+     */
     public static String[][] makeBoardNew(int n, int m) {
         String[][] board = new String[n][m];
         for (int i = 0; i < n; i++) {
@@ -324,7 +404,10 @@ public class Main {
         return board;
     }
 
-    // function to print the board
+    /**
+     * Prints the matrix of the board with numbering and spaces between
+     * @param currentboard The board we want to print
+     */
     public static void printBoardNew(String[][] currentboard) {
         int numSpaces = digitCount(currentboard.length);
         String spaces = "";
@@ -347,11 +430,15 @@ public class Main {
         }
     }
 
-    // check for correct orientation
+    /**
+     * Checks the given orientation
+     * @param input The given orientation
+     * @return Return true for 1/0 otherwise, returns false
+     */
     public static int checkOrientation(int input) {
         int HORIZONTAL = 0;
         int VERTICAL = 1;
-        // if the orientation is not 1/0 it will return -1 which is an error
+        /** if the orientation is not 1/0 it will return -1 which is an error */
         int ERROR = -1;
         if (input == HORIZONTAL) {
             return HORIZONTAL;
@@ -362,12 +449,20 @@ public class Main {
         }
     }
 
-    // check overlap of battleships.
-    // use the board, the size of ship, the tiles and the orientation
+    /**
+     * Checks the overlap of battleships using the game board, the tile, and orientation
+     * @param board The game board in the current state
+     * @param sizeShip The size of a battleship we want to put on the board
+     * @param row The row of the first tile we want this battleship to be placed
+     * @param col The colum of the first tile we want this battleship to be placed
+     * @param orientation The orientation we want this battleship to be placed
+     *                    0- horizontal, 1- vertical
+     * @return True if the ship can be placed otherwise, returns false
+     */
     public static boolean checkOverlap(String[][] board, int sizeShip, int row, int col,  int orientation) {
         int HORIZONTAL = 0;
         String ALREADY_PLACED = "#";
-        // check for horizontal ship
+        /** check for horizontal ship */
         if (orientation == HORIZONTAL) {
             // use the size of the ship to calculate the space
             for (int i = 0; i < sizeShip; i++) {
@@ -375,7 +470,7 @@ public class Main {
                     return false;
                 }
             }
-            // check for vertical ships
+            /** check for vertical ships */
         } else {
             for (int j = 0; j < sizeShip; j++) {
                 if (board[row + j][col].equals(ALREADY_PLACED)) {
@@ -386,19 +481,29 @@ public class Main {
         return true;
     }
 
-    // check if the battleship is inside the board
-    // n,m are the sizes of the board
-    // rowBattleship and colBattleship belongs for the battleship
+    /**
+     * Checks if the battleship we want to place is on the game board boundaries,
+     * using the size of the game board, the size of the battleship, the place we want to put the battleship
+     * and battleship orientation
+     * @param n Number of rows in the game board
+     * @param m Number of columns in the game board
+     * @param sizeBattleship The size of the battleship
+     * @param rowBattleship The row of the first tile we want this battleship to be placed
+     * @param colBattleship The column of the first tile we want this battleship to be placed
+     * @param orientation The orientation we want this battleship to be placed
+     *                    0- horizontal, 1- vertical
+     * @return True if the battleship is inside the boundaries, false otherwise
+     */
     public static boolean checkBoardBoundaries(int n, int m, int sizeBattleship, int rowBattleship, int colBattleship, int orientation) {
         int HORIZONTAL = 0;
-        // check for horizontal ship
+        /** check for horizontal ship */
         if (orientation == HORIZONTAL) {
             for (int i = 0; i < sizeBattleship; i++) {
                 if ((colBattleship + i) > m) {
                     return false;
                 }
             }
-            // check for vertical ship
+            /** check for vertical ship */
         } else {
             for (int i = 0; i < sizeBattleship; i++) {
                 if ((rowBattleship + i) > n) {
@@ -409,16 +514,23 @@ public class Main {
         return true;
     }
 
-    // check adjacent of one tile of battleships
+    /**
+     * Checks if the tile of a battleship we want to place is located too close for other battleship
+     * using the current game board, and the tile
+     * @param board The current game board
+     * @param row The row of the tile we want this battleship to be placed
+     * @param col The column of the tile we want this battleship to be placed
+     * @return True if no adjacent is found, false otherwise
+     */
     public static boolean checkAdjacent(String[][] board, int row, int col) {
-        // MIN, MAX : the range of the board
+        /** MIN, MAX : the range of the board */
         int MIN = 0;
         int MAX = (board.length - 1);
         int TOP = -1;
         int LEFT = -1;
         int BOT = 1;
         int RIGHT = 1;
-        // check in range of 1
+        /** check in range of 1 */
         for (int i = row + TOP; i <= row + BOT; i++) {
             for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
                 if ((i >= MIN) && (i <= MAX) && (j >= MIN) && (j <= MAX)){
@@ -431,19 +543,28 @@ public class Main {
         return true;
     }
 
-    // check adjacent of whole battleships
+    /**
+     * Checks the whole ship adjacent using the previous function checkAdjacent
+     * using the current game board, the tile of the battleship, the size of the battleship
+     * and orientation
+     * @param board The current game board
+     * @param row The row of the first tile we want this battleship to be placed
+     * @param col The column of the first tile we want this battleship to be placed
+     * @param size The size of the battleship
+     * @param orientation The orientation we want this battleship to be placed
+     *      *             0- horizontal, 1- vertical
+     * @return True if there's no adjacent found, false otherwise
+     */
     public static boolean checkAdjacentBattleship(String[][] board, int row, int col, int size, int orientation) {
         int HORIZONTAL = 0;
-        // for horizontal ship placement
-        // check every tile of the ship
+        /** for horizontal ship placement, check every tile of the ship */
         if (orientation == HORIZONTAL) {
             for (int i = 0; i < size; i++) {
                 if (!checkAdjacent(board, row, col + 1)) {
                     return false;
                 }
             }
-            // for vertical ship placement
-            // check every tile of the ship
+            /** for vertical ship placement, check every tile of the ship */
         } else {
             for (int i = 0; i < size; i++) {
                 if (!checkAdjacent(board, row + 1, col)) {
@@ -463,8 +584,20 @@ public class Main {
     }
 
     // check if a battleship sunk
-    // it checks if after the attack around the tile the same tiles on the guessing board are the same the player's board
-    public static boolean battleshipDrown(int rowBattleship, int colBattleship, String[][] board, String[][] guessBoard) {
+    // it checks if after the attack around the tile the same tiles on the guessing board
+    // are the same the player's board
+
+    /**
+     * Check if a battleship is sunk by comparing the area of a hit between the guessing board
+     * and the private game board, using the both boards and the tile of the last attack
+     * @param rowBattleship The row of the tile that was hit
+     * @param colBattleship The column of the tile that was hit
+     * @param board The private game board
+     * @param guessBoard The guessing board
+     * @return True if a ship was sunk, false otherwise
+     */
+    public static boolean battleshipDrown(int rowBattleship, int colBattleship, String[][] board,
+                                          String[][] guessBoard) {
         int MIN = 0;
         // check horizontal to right
         for (int i = colBattleship; i < board[MIN].length; i++){
