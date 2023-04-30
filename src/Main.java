@@ -21,6 +21,10 @@ public class Main {
         String[][] userBoard = makeBoard(n, m);
         String[][] compBoard = makeBoard(n, m);
 
+        // TEST TEST TEST new board and print function
+        String[][] boardTest = makeBoardNew(n, m);
+        printBoardNew(boardTest);
+
         /* making array of battleships*/
 
         System.out.println("Enter the battleships sizes:");
@@ -275,13 +279,13 @@ public class Main {
         return count;
     }
 
-    // make the board
+    // make the board5
     public static String[][] makeBoard(int n, int m) {
         // m+1 and n+1 because the first row and column of the board are used for labels
         // fill the board with "-"
         String[][] board = new String[n+1][m+1];
-        for (int i = 1; i <= n; i++) {  // fixed the loop from i<n+1
-            for (int j = 1; j <= m; j++) {  // fixed the loop from j < m
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
                 board[i][j] = "-";
             }
         }
@@ -292,11 +296,11 @@ public class Main {
             board[0][0] += " ";
         }
         // number the first row
-        for (int j = 1; j <= m; j++) {  // fixed starts fron 0
-            board[0][j] = (j-1) + "";
+        for (int j = 0; j <= m-1; j++) {  // fixed starts fron 0
+            board[0][j] = (j) + "";
         }
         // number the first col
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i <= n-1; i++) {
             // count the spaces before each number
             int sumSpaces = space_Num - digitCount(i-1);
             board[i][0] = "";
@@ -307,6 +311,40 @@ public class Main {
             board[i][0] += (i-1) + "";
         }
         return board;
+    }
+
+    // make a board that filled with "-"
+    public static String[][] makeBoardNew(int n, int m) {
+        String[][] board = new String[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                board[i][j] = "-";
+            }
+        }
+        return board;
+    }
+
+    // function to print the board
+    public static void printBoardNew(String[][] currentboard) {
+        int numSpaces = digitCount(currentboard.length);
+        String spaces = "";
+        for (int s = 0; s < numSpaces; s++) {
+            spaces += " ";
+        }
+        for (int i = 0; i < currentboard.length + 1; i++) {
+            for (int j = 0; j < currentboard[0].length + 1; j++) {
+                if(i==0&&j==0)
+                    System.out.print(" ");
+                else if(i==0)
+                    System.out.print(j-1+" ");
+                else if(j==0)
+                    System.out.print(i-1+" ");
+                else
+                    System.out.print(currentboard[i-1][j-1]+" ");
+
+            }
+            System.out.println();
+        }
     }
 
     // check for correct orientation
