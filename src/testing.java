@@ -266,12 +266,12 @@ class Main2 {
     // print the board
 
     /**
-     *
-     * @param board
-     * @param rowBattleship
-     * @param colBattleship
-     * @param orientation
-     * @param currentSizeBattleship
+     * Putting BattleShip into the user's GameBoard
+     * @param board The private game board
+     * @param rowBattleship The row of a tile we want to put the battleship
+     * @param colBattleship The column of a tile we want to put the battleship
+     * @param orientation The orientation of the battleship
+     * @param currentSizeBattleship The size of the battleship
      */
     // Putting BattleShip into the user's GameBoard
     public static void putInBoard(String[][] board,int rowBattleship,int colBattleship,int orientation, int currentSizeBattleship){
