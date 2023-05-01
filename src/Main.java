@@ -496,14 +496,14 @@ public class Main {
         /** for horizontal ship placement, check every tile of the ship */
         if (orientation == HORIZONTAL) {
             for (int i = 0; i < size; i++) {
-                if (!checkAdjacent(board, row, col + 1)) {
+                if (!checkAdjacent(board, row, col + i)) {
                     return false;
                 }
             }
             /** for vertical ship placement, check every tile of the ship */
         } else {
             for (int i = 0; i < size; i++) {
-                if (!checkAdjacent(board, row + 1, col)) {
+                if (!checkAdjacent(board, row + i, col)) {
                     return false;
                 }
             }
