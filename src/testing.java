@@ -54,44 +54,6 @@ class Main2 {
         }
     }
 
-    // TEST TEST TEST
-    public static int initializeUserBoardNew (String[][] userBoard, String[] battleships, int n, int m){
-        int totalBattleships = 0;
-        for (String s : battleships) {
-            String[] currentBattleship = s.split("X");
-            /** get the number and sizes of the current battleships */
-            int numCurrentBattleship = Integer.parseInt(currentBattleship[0]);
-            int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
-
-            /** total battleships in the game */
-            totalBattleships += numCurrentBattleship;
-
-            /** make another loop for the number of the current size */
-            for (int i = 0; i < numCurrentBattleship; i++) {
-                int orientation = -1;
-                printGameBoard(userBoard);
-                System.out.println("Enter location and orientation for battleship size " + currentSizeBattleship);
-                // the next do while will continue run till all the three parameters of the ship are correct
-                do {
-                    String[] battleshipInfo = scanner.nextLine().split(", ");
-                    int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
-                    int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
-                    orientation = Integer.parseInt(battleshipInfo[2].trim());
-
-                    if (!checkCorrectPlacement(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation)) {
-                        continue;
-                    }
-                    putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
-                    System.out.println("Your current game board:");
-                    printGameBoard(userBoard);
-                } while (orientation == -1);
-            }
-        }
-        return totalBattleships;
-    }
-
-
-
     /**
      * Initializes the user's game board by prompting the user to enter the location and orientation of each battleship.
      * checks if the location, orientation, and size of each battleship are correct before placing it on the board.
@@ -218,14 +180,6 @@ class Main2 {
         }
     }
 
-    /**
-     *
-     * @param compBoard
-     * @param battleships
-     * @param n
-     * @param m
-     */
-    // initialize the computer battleships and place them on the board
     public static void initializeComputerBoard(String[][] compBoard,String[] battleships,int n, int m) {
         for (String s : battleships) {
             String[] currentBattleship = s.split("X");
@@ -234,31 +188,18 @@ class Main2 {
             int currentSizeBattleship = Integer.parseInt(currentBattleship[1]);
             // make another loop for the number of the current size
             for (int i = 0; i < numCurrentBattleship; i++) {
-                int orientation;
-                boolean tile;
-                boolean boundaries;
-                boolean overlap;
-                boolean adjacent;
+                boolean checkPlacement = false;
                 // the next do while will continue run till all the three parameters of the ship are correct
-                do {
-                    Random rnd = new Random();
+                while (!checkPlacement) {
                     int rowBattleship = rnd.nextInt(n);
                     int colBattleship = rnd.nextInt(m);
-                    orientation = rnd.nextInt(2);
-                    boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    overlap = checkOverlap(compBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    adjacent = checkAdjacent(compBoard, rowBattleship, colBattleship);
-                    tile = checkStartingTile(n, m, rowBattleship, colBattleship);
-                    if (!tile)
-                        continue;
-                    if (!boundaries)
-                        continue;
-                    if (!overlap)
-                        continue;
-                    if (!adjacent)
-                        continue;
-                    putInBoard(compBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
-                } while (!boundaries || !overlap || !adjacent || !tile);
+                    int orientation = rnd.nextInt(2);
+                    checkPlacement = checkCorrectPlacementComputer(compBoard, currentSizeBattleship, rowBattleship,
+                            colBattleship, orientation);
+                    if (checkPlacement) {
+                        putInBoard(compBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
+                    }
+                }
             }
         }
     }
@@ -571,6 +512,19 @@ class Main2 {
             System.out.println("Adjacent battleship detected, try again!");
             return false;
         }
+        return true;
+    }
+
+    public static boolean checkCorrectPlacementComputer(String[][] board, int size, int row, int column, int orientation) {
+    if (!checkStartingTile(board.length, board[0].length, row, column)) {
+        return false;
+    } else if (!checkBoardBoundaries(board.length, board[0].length, size, row, column, orientation)) {
+        return false;
+    } else if (!checkOverlap(board, size, row, column, orientation)) {
+        return false;
+    } else if (!checkAdjacentBattleship(board, row, column, size, orientation)) {
+        return false;
+    }
         return true;
     }
     /**
