@@ -10,6 +10,7 @@ public class Main {
     public static void battleshipGame() {
 
         /** board issues */
+
         System.out.println("Enter the board size:");
         String[] sizeStr = scanner.nextLine().split("X");
         int n = Integer.parseInt(sizeStr[0]);
@@ -51,6 +52,8 @@ public class Main {
                 System.out.println("You lost ):");
                 break;
             }
+            System.out.println("Your current guessing board:");
+            printGameBoard(userGuessBoard);
         }
     }
 
@@ -67,6 +70,10 @@ public class Main {
 
     public static int initializeUserBoard (String[][] userBoard, String[] battleships, int n, int m){
         int totalBattleships = 0;
+
+        System.out.println("Your current game board:");
+        printGameBoard(userBoard);
+
         for (String s : battleships) {
             String[] currentBattleship = s.split("X");
             /** get the number and sizes of the current battleships */
@@ -76,20 +83,21 @@ public class Main {
             /** total battleships in the game */
             totalBattleships += numCurrentBattleship;
 
+
+
             /** make another loop for the number of the current size */
             for (int i = 0; i < numCurrentBattleship; i++) {
-                int orientation;
+                int orientation = -1;
                 boolean validPlacement = false;
-                printGameBoard(userBoard);
+
                 System.out.println("Enter location and orientation for battleship size " + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
-
                     String[] battleshipInfo = scanner.nextLine().split(", ");
                     int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
                     int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
                     orientation = Integer.parseInt(battleshipInfo[2].trim());
-                    System.out.println( "row= "+rowBattleship+" col "+colBattleship+" orientation= "+ orientation);
+
                     if (checkCorrectPlacement(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation)) {
                         validPlacement = true;
                         putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
@@ -100,6 +108,11 @@ public class Main {
 
             }
         }
+
+        String[][] temp = makeBoard(n,m);
+        System.out.println("Your current guessing board:");
+        printGameBoard(temp);
+
         return totalBattleships;
     }
 
@@ -128,19 +141,24 @@ public class Main {
                 System.out.println("The computer attacked (" + rowBattleship + ", " + colBattleship + ")");
                 if (!isAttackMissed(userBoard, rowBattleship, colBattleship)) {
                     System.out.println("That is a miss!");
+
                     updateBoard(compGuessBoard, rowBattleship, colBattleship, "X");
+
                 } else {
                     System.out.println("That is a hit!");
                     updateBoard(compGuessBoard, rowBattleship, colBattleship, "V");
                     updateBoard(userBoard, rowBattleship, colBattleship, "X");
                     if (battleshipDrown(rowBattleship, colBattleship, userBoard)) {
-                        System.out.println("TEST THE USER BOARD BEFORE CHECKIN DROWN");
-                        printGameBoard(userBoard);
                         System.out.println("Your battleship has been drowned, You have left " + (--battleshipState[0]) + " more battleships!");
+                    }
+                    else {
+
                     }
                 }
             }
         } while (flag);
+        System.out.println("Your current game board:");
+        printGameBoard(userBoard);
     }
 
     /**
@@ -154,16 +172,13 @@ public class Main {
      */
     public static void userAttackComputer(String[][] userGuessBoard, String[][] compBoard, String[][] compGuessBoard,
                                           int[] battleshipState, int n, int m) {
-        System.out.println("Your current guessing board:");
-        printGameBoard(userGuessBoard);
+
         System.out.println("Enter a tile to attack");
         boolean validScan = false;
         while (!validScan) {
             String[] userAttackCord = scanner.nextLine().split(", ");
             int rowAttack = Integer.parseInt(userAttackCord[0]);
             int colAttack = Integer.parseInt(userAttackCord[1]);
-            // TEST TEST TEST
-            System.out.println(rowAttack +" col attac=" +colAttack);
             if (!checkStartingTile(n, m, rowAttack, colAttack)) {
                 System.out.println("Illegal tile, try again!");
             } else if (isAlreadyBeenAttacked(userGuessBoard, rowAttack, colAttack)) {
@@ -214,7 +229,7 @@ public class Main {
                     orientation = rnd.nextInt(2);
                     boundaries = checkBoardBoundaries(n, m, currentSizeBattleship, rowBattleship, colBattleship, orientation);
                     overlap = checkOverlap(compBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation);
-                    adjacent = checkAdjacent(compBoard, rowBattleship, colBattleship);
+                    adjacent = checkAdjacentBattleship(compBoard, rowBattleship, colBattleship,currentSizeBattleship , orientation);
                     tile = checkStartingTile(n, m, rowBattleship, colBattleship);
                     if (!tile)
                         continue;
@@ -229,8 +244,6 @@ public class Main {
             }
 
         }
-        System.out.println("TEST THE COMPUTER BOARD");
-        printGameBoard(compBoard);
     }
 
     // print the board
@@ -358,14 +371,16 @@ public class Main {
                 else if(i==0)
                     System.out.print(j-1+" ");
                 else if(j==0)
-                    System.out.print(i-1+" ");
+                    System.out.print(i-1 +" ");
                 else
                     System.out.print(currentboard[i-1][j-1]+" ");
 
             }
             System.out.println();
         }
+        System.out.println();
     }
+
 
     /**
      * Checks the given orientation
@@ -452,6 +467,13 @@ public class Main {
         return true;
     }
 
+
+
+    public static boolean zoleg(int curRow, int curCol, int minRow, int minCol, int maxRow, int maxCol){
+        if(curRow < minRow || curRow > maxRow || curCol < minCol || curCol > maxCol)
+            return true;
+        return false;
+    }
     /**
      * Checks if the tile of a battleship we want to place is located too close for other battleship
      * using the current game board, and the tile
@@ -465,14 +487,15 @@ public class Main {
         int MIN = 0;
         int MAX_COL = (board[0].length - 1);
         int MAX_ROW = (board.length - 1);
-        /** check in range of 1 */
-        for (int i = row -1; i <= row +1 ; i++) {
-            for (int j = col -1; j <= col+1 ; j++ ) {
-                if ((i >= MIN) && (i <= MAX_ROW) && (j >= MIN) && (j <= MAX_COL)){
-                    if (board[i][j].equals("#")) {
-                        return false;
-                    }
-                }
+
+        for(int i=-1; i<=1; i++){
+            for(int j=-1; j<=1; j++){
+                if(i==0 && j==0)
+                    continue;
+                if(zoleg(row+i,col+j,MIN,MIN,MAX_ROW,MAX_COL))
+                    continue;
+                if(board[row+i][col+j].equals("#"))
+                    return false;
             }
         }
         return true;
@@ -580,7 +603,7 @@ public class Main {
             if (board[j][colBattleship].equals("#"))
                 return false;
             /**avoid negative indices */
-            if ((j == MIN) || (board[j][colBattleship].equals("-")))
+            if ((board[j][colBattleship].equals("-")))
                 break;
         }
         return true;
@@ -596,9 +619,7 @@ public class Main {
 
         for (int i = 1; i <= numberOfGames; i++) {
             scanner.nextLine();
-            System.out.println("test");
             int seed = scanner.nextInt();
-            System.out.println("SEED IS" + seed);
             rnd = new Random(seed);
             scanner.nextLine();
             System.out.println("Game number " + i + " starts.");
