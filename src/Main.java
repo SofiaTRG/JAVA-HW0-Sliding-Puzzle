@@ -78,17 +78,18 @@ public class Main {
 
             /** make another loop for the number of the current size */
             for (int i = 0; i < numCurrentBattleship; i++) {
-                int orientation = -1;
+                int orientation;
                 boolean validPlacement = false;
                 printGameBoard(userBoard);
                 System.out.println("Enter location and orientation for battleship size " + currentSizeBattleship);
                 // the next do while will continue run till all the three parameters of the ship are correct
                 do {
+
                     String[] battleshipInfo = scanner.nextLine().split(", ");
                     int rowBattleship = Integer.parseInt(battleshipInfo[0].trim());
                     int colBattleship = Integer.parseInt(battleshipInfo[1].trim());
                     orientation = Integer.parseInt(battleshipInfo[2].trim());
-
+                    System.out.println( "row= "+rowBattleship+" col "+colBattleship+" orientation= "+ orientation);
                     if (checkCorrectPlacement(userBoard, currentSizeBattleship, rowBattleship, colBattleship, orientation)) {
                         validPlacement = true;
                         putInBoard(userBoard, rowBattleship, colBattleship, orientation, currentSizeBattleship);
@@ -161,6 +162,8 @@ public class Main {
             String[] userAttackCord = scanner.nextLine().split(", ");
             int rowAttack = Integer.parseInt(userAttackCord[0]);
             int colAttack = Integer.parseInt(userAttackCord[1]);
+            // TEST TEST TEST
+            System.out.println(rowAttack +" col attac=" +colAttack);
             if (!checkStartingTile(n, m, rowAttack, colAttack)) {
                 System.out.println("Illegal tile, try again!");
             } else if (isAlreadyBeenAttacked(userGuessBoard, rowAttack, colAttack)) {
@@ -462,13 +465,9 @@ public class Main {
         int MIN = 0;
         int MAX_COL = (board[0].length - 1);
         int MAX_ROW = (board.length - 1);
-        int TOP = -1;
-        int LEFT = -1;
-        int BOT = 1;
-        int RIGHT = 1;
         /** check in range of 1 */
-        for (int i = row + TOP; i <= row + BOT; i++) {
-            for (int j = col + LEFT; j <= row + RIGHT; j++ ) {
+        for (int i = row -1; i <= row ; i++) {
+            for (int j = col -1; j <= col ; j++ ) {
                 if ((i >= MIN) && (i <= MAX_ROW) && (j >= MIN) && (j <= MAX_COL)){
                     if (board[i][j].equals("#")) {
                         return false;
