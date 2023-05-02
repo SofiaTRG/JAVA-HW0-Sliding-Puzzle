@@ -359,21 +359,47 @@ public class Main {
      * @param currentboard The board we want to print
      */
     public static void printGameBoard(String[][] currentboard) {
-        int numSpaces = digitCount(currentboard.length);
-        StringBuilder spaces = new StringBuilder("");
-        for (int s = 0; s < numSpaces; s++) {
-            spaces.append(" ");
+        int maxNumSpacesRow = digitCount(currentboard.length-1)-1;
+        int maxNumSpacesColumn = digitCount(currentboard[0].length-1);
+
+        if (maxNumSpacesColumn < 0) {
+            maxNumSpacesColumn = 1;
         }
+        System.out.print("the space row and space column are:" +maxNumSpacesRow+" "+maxNumSpacesColumn);
+        System.out.println();
+        int currentNumDigit;
         for (int i = 0; i < currentboard.length + 1; i++) {
             for (int j = 0; j < currentboard[0].length + 1; j++) {
-                if(i==0&&j==0)
-                    System.out.print("  ");
-                else if(i==0)
-                    System.out.print(j-1+" ");
-                else if(j==0)
-                    System.out.print(i-1 +" ");
+                if(i==0&&j==0) {
+                    if (currentboard.length == 1)
+                        System.out.print(" ");
+                    for (int k = 0; k < maxNumSpacesRow+1; k++) {
+                        System.out.print(" ");
+                    }
+                }
+                else if(i==0) {
+                    currentNumDigit = digitCount(j-1);
+                    if ((j-1) == 0) {
+                        currentNumDigit = 1;
+                    }
+                    for (int k = 0; k < (maxNumSpacesColumn-currentNumDigit)+1; k++) {
+                        System.out.print(" ");
+                    }
+                    System.out.print(j - 1);
+                }
+                else if(j==0) {
+                    currentNumDigit = digitCount(i-1);
+                    if ((i-1) == 0) {
+                        currentNumDigit = 1;
+                    }
+                    for (int k = 0; k < (maxNumSpacesRow-currentNumDigit)+1; k++) {
+                        System.out.print(" ");
+                    }
+                    System.out.print(i - 1);
+                }
+
                 else
-                    System.out.print(currentboard[i-1][j-1]+" ");
+                    System.out.print(" "+currentboard[i-1][j-1]);
 
             }
             System.out.println();
