@@ -466,8 +466,8 @@ public class Main {
         int MAX_COL = (board[0].length - 1);
         int MAX_ROW = (board.length - 1);
         /** check in range of 1 */
-        for (int i = row -1; i <= row ; i++) {
-            for (int j = col -1; j <= col ; j++ ) {
+        for (int i = row -1; i <= row +1 ; i++) {
+            for (int j = col -1; j <= col+1 ; j++ ) {
                 if ((i >= MIN) && (i <= MAX_ROW) && (j >= MIN) && (j <= MAX_COL)){
                     if (board[i][j].equals("#")) {
                         return false;
