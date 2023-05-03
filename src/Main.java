@@ -11,7 +11,7 @@ public class Main {
 
         /** board issues */
 
-        System.out.println("Enter the board size:");
+        System.out.println("Enter the board size");
         String[] sizeStr = scanner.nextLine().split("X");
         int n = Integer.parseInt(sizeStr[0]);
         int m = Integer.parseInt(sizeStr[1]);
@@ -23,7 +23,7 @@ public class Main {
         String[][] compBoard = makeBoard(n, m);
 
         /** making array of battleships*/
-        System.out.println("Enter the battleships sizes:");
+        System.out.println("Enter the battleships sizes");
         String[] battleships = scanner.nextLine().split(" ");
 
         /**initializing user & computer boards and set the total number
@@ -149,7 +149,7 @@ public class Main {
                     updateBoard(compGuessBoard, rowBattleship, colBattleship, "V");
                     updateBoard(userBoard, rowBattleship, colBattleship, "X");
                     if (battleshipDrown(rowBattleship, colBattleship, userBoard)) {
-                        System.out.println("Your battleship has been drowned, You have left " + (--battleshipState[0]) + " more battleships!");
+                        System.out.println("Your battleship has been drowned, you have left " + (--battleshipState[0]) + " more battleships!");
                     }
                     else {
 
@@ -309,7 +309,7 @@ public class Main {
      * false, otherwise
      */
     public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col){
-        return !board[row][col].equals("-");
+        return !board[row][col].equals("–");
     }
 
     /**
@@ -321,7 +321,7 @@ public class Main {
      * @return True for miss, false for a hit
      */
     public static boolean isAttackMissed(String[][] board, int row, int col){
-        return !board[row][col].equals("-");
+        return !board[row][col].equals("–");
     }
 
     /**
@@ -339,16 +339,16 @@ public class Main {
     }
 
     /**
-     * Makes matrix of the board that filled with "-" using the row and column input
+     * Makes matrix of the board that filled with "–" using the row and column input
      * @param n The number of rows
      * @param m The number of columns
-     * @return The matrix of the board filled with "-"
+     * @return The matrix of the board filled with "–"
      */
     public static String[][] makeBoard(int n, int m) {
         String[][] board = new String[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                board[i][j] = "-";
+                board[i][j] = "–";
             }
         }
         return board;
@@ -365,8 +365,6 @@ public class Main {
         if (maxNumSpacesColumn < 0) {
             maxNumSpacesColumn = 1;
         }
-        System.out.print("the space row and space column are:" +maxNumSpacesRow+" "+maxNumSpacesColumn);
-        System.out.println();
         int currentNumDigit;
         for (int i = 0; i < currentboard.length + 1; i++) {
             for (int j = 0; j < currentboard[0].length + 1; j++) {
@@ -604,7 +602,7 @@ public class Main {
             if (board[rowBattleship][i].equals("#")) {
                 return false;
             }
-            if (board[rowBattleship][i].equals("-"))
+            if (board[rowBattleship][i].equals("–"))
                 break;
         }
         /** check horizontal to left */
@@ -613,7 +611,7 @@ public class Main {
                 return false;
             }
             /**avoid negative indices */
-            if ((i == MIN) || (board[rowBattleship][i].equals("-")))
+            if ((i == MIN) || (board[rowBattleship][i].equals("–")))
                 break;
         }
         /** check vertical to top */
@@ -621,7 +619,7 @@ public class Main {
             if (board[j][colBattleship].equals("#")) {
                 return false;
             }
-            if (board[j][colBattleship].equals("-"))
+            if (board[j][colBattleship].equals("–"))
                 break;
         }
         /** check vertical to bot */
@@ -629,7 +627,7 @@ public class Main {
             if (board[j][colBattleship].equals("#"))
                 return false;
             /**avoid negative indices */
-            if ((board[j][colBattleship].equals("-")))
+            if ((board[j][colBattleship].equals("–")))
                 break;
         }
         return true;
