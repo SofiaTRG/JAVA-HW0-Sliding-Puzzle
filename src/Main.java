@@ -7,14 +7,6 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
-
-    // ADD ADD ADD
-    // LETS ADD SOME INFORMATION ABOUT THE GAME
-
-    /**
-     *
-     *
-     */
     public static void battleshipGame() {
 
         /** extract the dimension of the board: n for rows, m for the columns. */
