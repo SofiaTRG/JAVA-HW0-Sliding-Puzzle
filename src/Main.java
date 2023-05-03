@@ -91,7 +91,7 @@ public class Main {
                 int orientation = -1;
                 boolean validPlacement = false;
 
-                System.out.println("Enter location and orientation for battleship size " + currentSizeBattleship);
+                System.out.println("Enter location and orientation for battleship of size " + currentSizeBattleship);
                 /** the next do while will continue run till all the three parameters of the ship are correct */
                 do {
                     String[] battleshipInfo = scanner.nextLine().split(", ");
@@ -309,7 +309,8 @@ public class Main {
      * false, otherwise
      */
     public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col){
-        return !board[row][col].equals("–");
+        String DASH = "\u2013";
+        return !board[row][col].equals(DASH);
     }
 
     /**
@@ -320,8 +321,9 @@ public class Main {
      * @param column The column of an attack tile
      * @return True for miss, false for a hit
      */
-    public static boolean isAttackMissed(String[][] board, int row, int column){
-        return board[row][column].equals("–");
+    public static boolean isAttackMissed(String[][] board, int row, int column) {
+        String DASH = "\u2013";
+        return board[row][column].equals(DASH);
     }
 
     /**
@@ -345,10 +347,11 @@ public class Main {
      * @return The matrix of the board filled with "–"
      */
     public static String[][] makeBoard(int n, int m) {
+        String DASH = "\u2013";
         String[][] board = new String[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                board[i][j] = "–";
+                board[i][j] = DASH;
             }
         }
         return board;
@@ -616,12 +619,14 @@ public class Main {
      */
     public static boolean battleshipDrown (int rowBattleship, int columnBattleship, String[][] board) {
         int MIN = 0;
+        String DASH = "\u2013";
+
         /** check horizontal to right */
         for (int i = columnBattleship; i < board[MIN].length; i++){
             if (board[rowBattleship][i].equals("#")) {
                 return false;
             }
-            if (board[rowBattleship][i].equals("–"))
+            if (board[rowBattleship][i].equals(DASH))
                 break;
         }
         /** check horizontal to left */
@@ -630,7 +635,7 @@ public class Main {
                 return false;
             }
             /**avoid negative indices */
-            if ((i == MIN) || (board[rowBattleship][i].equals("–")))
+            if ((i == MIN) || (board[rowBattleship][i].equals(DASH)))
                 break;
         }
         /** check vertical to top */
@@ -638,7 +643,7 @@ public class Main {
             if (board[j][columnBattleship].equals("#")) {
                 return false;
             }
-            if (board[j][columnBattleship].equals("–"))
+            if (board[j][columnBattleship].equals(DASH))
                 break;
         }
         /** check vertical to bot */
@@ -646,7 +651,7 @@ public class Main {
             if (board[j][columnBattleship].equals("#"))
                 return false;
             /**avoid negative indices */
-            if ((board[j][columnBattleship].equals("–")))
+            if ((board[j][columnBattleship].equals(DASH)))
                 break;
         }
         return true;
