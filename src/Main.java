@@ -114,7 +114,6 @@ public class Main {
         return totalBattleships;
     }
 
-
     /**
      * This function is responsible for the computer attack on the user,
      * while taking into account the rules and the printing order of the game instructions
@@ -257,9 +256,9 @@ public class Main {
      */
 
     public static void putBattleshipInBoard(String[][] board,int rowBattleship,
-                                            int columnBattleship,int orientation, int currentSizeBattleship){
+                                            int columnBattleship,int orientation, int currentSizeBattleship) {
         int HORIZONTAL = 0;
-        if(orientation == HORIZONTAL){
+        if(orientation == HORIZONTAL) {
             for(int i=0; i<currentSizeBattleship; i++) {
                 board[rowBattleship][columnBattleship + i] = "#";
             }
@@ -295,7 +294,7 @@ public class Main {
      * @param column The column of the tile we want to change
      * @param sign The new sign we want to put in the tile
      */
-    public static void updateBoard(String[][] board, int row, int column, String sign){
+    public static void updateBoard(String[][] board, int row, int column, String sign) {
         board[row][column] = sign;
     }
 
@@ -308,7 +307,7 @@ public class Main {
      * @return True if the tile has been attacked before,
      * false, otherwise
      */
-    public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col){
+    public static boolean isAlreadyBeenAttacked(String[][] board, int row, int col) {
         String DASH = "\u2013";
         return !board[row][col].equals(DASH);
     }
@@ -517,7 +516,7 @@ public class Main {
      */
 
     public static boolean outOfBound(int currentRow, int currentColumn, int minRow, int minColumn, int maxRow,
-                                     int maxColumn){
+                                     int maxColumn) {
         if(currentRow < minRow || currentRow > maxRow || currentColumn < minColumn || currentColumn > maxColumn)
             return true;
         return false;
@@ -622,7 +621,7 @@ public class Main {
         String DASH = "\u2013";
 
         /** check horizontal to right */
-        for (int i = columnBattleship; i < board[MIN].length; i++){
+        for (int i = columnBattleship; i < board[MIN].length; i++) {
             if (board[rowBattleship][i].equals("#")) {
                 return false;
             }
@@ -630,7 +629,7 @@ public class Main {
                 break;
         }
         /** check horizontal to left */
-        for (int i = columnBattleship; i >= MIN; i--){
+        for (int i = columnBattleship; i >= MIN; i--) {
             if (board[rowBattleship][i].equals("#")) {
                 return false;
             }
@@ -639,7 +638,7 @@ public class Main {
                 break;
         }
         /** check vertical to top */
-        for (int j = rowBattleship; j >= MIN; j--){
+        for (int j = rowBattleship; j >= MIN; j--) {
             if (board[j][columnBattleship].equals("#")) {
                 return false;
             }
@@ -647,7 +646,7 @@ public class Main {
                 break;
         }
         /** check vertical to bot */
-        for (int j = rowBattleship; j < board.length; j++){
+        for (int j = rowBattleship; j < board.length; j++) {
             if (board[j][columnBattleship].equals("#"))
                 return false;
             /**avoid negative indices */
