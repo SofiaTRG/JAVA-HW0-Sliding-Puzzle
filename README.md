@@ -1,4 +1,5 @@
-# HW0
+# HW0: : Sliding Puzzle Implementation
+
 IMPORTANT!!: put this on english only path to folder or else it would just not work.
 
 This is just the base as it was given to us.
